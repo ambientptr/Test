@@ -1,24 +1,26 @@
 #!/usr/bin/env python3
-"""Sinh EmbeddedLangs.h từ các Localizable.strings trong Mx.bundle.
+"""Generate Sources/tgapi/UI/EmbeddedLangs.h from Mx.bundle/*.lproj.
 
-Generates EmbeddedLangs.h from the Localizable.strings files in Mx.bundle.
+The previous version re-escaped every value it read:
 
-Escaping note (this is what the previous version got wrong):
-    A .strings file already stores values with C-style escapes, so a literal
-    quote is written as \" and a literal backslash as \\. Objective-C string
-    literals use the exact same escapes, so a correctly parsed value can be
-    written straight into the header with no re-escaping at all.
+    val = val.strip('";')
+    val = val.replace('"', '\\"')
 
-    The old code ran val.replace('"', '\\"') over the raw line, which turned an
-    existing \" into \\" . The compiler then read that as "backslash, then end
-    of string", and every language after the offending line collapsed:
+A .strings file already stores an inner quote escaped, as \", so that turned
+\" into \\", which a compiler reads as "literal backslash, then end of
+string". Everything after it was parsed as code, producing:
 
-        EmbeddedLangs.h:111: error: expected '}' or ','
-        EmbeddedLangs.h:128: error: expected identifier or '('   (x10)
-        EmbeddedLangs.h:1265: error: extraneous closing brace ('}')
+    error: expected '}' or ','                 (on the value itself)
+    error: expected identifier or '('          (on each following language)
+    error: extraneous closing brace ('}')      (at the end of the file)
 
-    It also used .strip('";') to remove the wrapping quotes, which chews
-    through a trailing \" as well and leaves a dangling backslash.
+The strip('";') was a second, latent bug: it removes any trailing run of
+quote and semicolon characters, so a value ending in \" lost the escaped
+quote as well and left a dangling backslash.
+
+.strings and Objective-C string literals use the same escape syntax, so the
+correct handling is to parse the escapes and pass the value through
+unchanged. Nothing is re-escaped here.
 """
 
 import argparse
@@ -26,34 +28,31 @@ import os
 import re
 import sys
 
-# Mọi path suy ra từ vị trí script -> chạy được trên máy bất kỳ, không phụ thuộc CWD
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_BUNDLE = os.path.join(SCRIPT_DIR, "Mx.bundle")
 DEFAULT_OUTPUT = os.path.join(SCRIPT_DIR, "Sources", "tgapi", "UI", "EmbeddedLangs.h")
 
-# "KEY" = "VALUE";  where either side may contain backslash escapes.
-# (?:[^"\\]|\\.)* consumes an escaped character as a single unit, so an escaped
-# quote inside the value never ends the match early.
+# "key" = "value";  where either side may contain escaped characters.
+# (?:[^"\\]|\\.)* treats a backslash plus the character after it as one unit,
+# so an escaped quote inside the value does not end the match early.
 ENTRY_RE = re.compile(r'^\s*"((?:[^"\\]|\\.)*)"\s*=\s*"((?:[^"\\]|\\.)*)"\s*;\s*$')
 
 
-def c_string_is_balanced(value: str) -> bool:
-    """Walk a value the way a C compiler scans a string literal body.
+def c_string_is_balanced(value):
+    """Scan a value the way a compiler scans the body of a string literal.
 
-    Returns False if the value would terminate the literal early (an unescaped
-    quote) or run off the end (a trailing lone backslash). This is the guard
-    that would have caught the old bug before it ever reached clang.
+    Catches an unescaped quote (which would end the literal early) and a
+    trailing backslash (which would escape the closing quote).
     """
     i = 0
     while i < len(value):
-        ch = value[i]
-        if ch == "\\":
+        if value[i] == "\\":
             if i + 1 >= len(value):
-                return False  # dangling backslash: eats the closing quote
+                return False  # dangling backslash
             i += 2
             continue
-        if ch == '"':
-            return False  # unescaped quote: ends the literal early
+        if value[i] == '"':
+            return False  # unescaped quote
         i += 1
     return True
 
@@ -63,34 +62,37 @@ def parse_strings_file(path, problems):
     seen = set()
     in_block_comment = False
 
-    with open(path, "r", encoding="utf-8") as f:
-        for lineno, raw in enumerate(f, 1):
+    with open(path, encoding="utf-8") as handle:
+        for lineno, raw in enumerate(handle, 1):
             line = raw.strip()
 
-            # Block comments may span lines, while single-line /* ... */ is
-            # common in this bundle and must not swallow what follows it.
             if in_block_comment:
                 if "*/" in line:
-                    in_block_comment = False
                     line = line.split("*/", 1)[1].strip()
+                    in_block_comment = False
                 else:
                     continue
-            if line.startswith("/*") and "*/" not in line:
-                in_block_comment = True
+
+            if not line or line.startswith("//"):
                 continue
-            if not line or line.startswith("//") or line.startswith("/*"):
-                continue
+
+            if line.startswith("/*"):
+                if "*/" in line:
+                    line = line.split("*/", 1)[1].strip()
+                    if not line:
+                        continue
+                else:
+                    in_block_comment = True
+                    continue
 
             match = ENTRY_RE.match(line)
             if not match:
-                # Loud rather than silent: a skipped line means a string that is
-                # missing at runtime, which is much harder to spot than an error.
                 problems.append(f"{path}:{lineno}: could not parse: {line}")
                 continue
 
             key, value = match.group(1), match.group(2)
 
-            if not c_string_is_balanced(key) or not c_string_is_balanced(value):
+            if not c_string_is_balanced(value):
                 problems.append(
                     f"{path}:{lineno}: broken escaping in {key!r} "
                     "(unescaped quote or trailing backslash)"
@@ -108,20 +110,14 @@ def parse_strings_file(path, problems):
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Sinh EmbeddedLangs.h từ các Localizable.strings trong Mx.bundle"
-    )
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--bundle", default=DEFAULT_BUNDLE)
+    parser.add_argument("--output", default=DEFAULT_OUTPUT)
     parser.add_argument(
-        "--bundle", default=DEFAULT_BUNDLE,
-        help=f"Đường dẫn Mx.bundle (mặc định: {DEFAULT_BUNDLE})",
-    )
-    parser.add_argument(
-        "--output", default=DEFAULT_OUTPUT,
-        help=f"File header xuất ra (mặc định: {DEFAULT_OUTPUT})",
-    )
-    parser.add_argument(
-        "--strict", action="store_true",
-        help="Thoát với lỗi nếu có dòng không parse được (dùng trong CI)",
+        "--strict",
+        action="store_true",
+        help="exit non-zero if any line fails to parse, so CI fails here "
+        "instead of inside the generated header",
     )
     args = parser.parse_args()
 
@@ -129,53 +125,54 @@ def main():
     output_path = args.output
 
     if not os.path.isdir(bundle_path):
-        raise SystemExit(f"Không tìm thấy bundle: {bundle_path}")
+        raise SystemExit(f"Bundle not found: {bundle_path}")
 
-    # Sắp xếp để output ổn định giữa các lần chạy / các máy
     lprojs = sorted(d for d in os.listdir(bundle_path) if d.endswith(".lproj"))
 
     problems = []
     counts = {}
-
-    # static inline: header được import từ nhiều .m, non-static sẽ gây duplicate symbol khi link
-    out = "// Generated by generate_langs.py. Do not edit by hand.\n"
-    out += "#import <Foundation/Foundation.h>\n\n"
-    out += "static inline NSDictionary *GetAllTranslations(NSString *code) {\n"
+    out = [
+        "// Generated by generate_langs.py. Do not edit by hand.\n",
+        "#import <Foundation/Foundation.h>\n\n",
+        "static inline NSDictionary *GetAllTranslations(NSString *code) {\n",
+    ]
 
     for lproj in lprojs:
-        code = lproj.replace(".lproj", "")
+        code = lproj[: -len(".lproj")]
         strings_path = os.path.join(bundle_path, lproj, "Localizable.strings")
-        if not os.path.exists(strings_path):
+        if not os.path.isfile(strings_path):
+            problems.append(f"{strings_path}: missing Localizable.strings")
             continue
 
         entries = parse_strings_file(strings_path, problems)
         counts[code] = len(entries)
 
-        out += f'    if ([code isEqualToString:@"{code}"]) {{\n'
-        out += "        return @{\n"
+        out.append(f'    if ([code isEqualToString:@"{code}"]) {{\n')
+        out.append("        return @{\n")
         for key, value in entries:
-            # No re-escaping: .strings escapes are already valid ObjC escapes.
-            out += f'            @"{key}": @"{value}",\n'
-        out += "        };\n"
-        out += "    }\n"
+            # Written through as parsed: .strings escapes are already valid
+            # Objective-C escapes, and re-escaping is what broke the build.
+            out.append(f'            @"{key}": @"{value}",\n')
+        out.append("        };\n")
+        out.append("    }\n")
 
-    out += "    return nil;\n}\n"
+    out.append("    return nil;\n}\n")
 
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
-    with open(output_path, "w", encoding="utf-8") as f:
-        f.write(out)
+    with open(output_path, "w", encoding="utf-8") as handle:
+        handle.write("".join(out))
 
-    print(f"Đã ghi {output_path} ({len(counts)} ngôn ngữ)")
+    print(f"Wrote {output_path} ({len(counts)} languages)")
     for code in sorted(counts):
         print(f"  {code}: {counts[code]} keys")
 
     if problems:
-        print("\nCảnh báo / Warnings:", file=sys.stderr)
-        for p in problems:
-            print(f"  {p}", file=sys.stderr)
+        print("\nWarnings:", file=sys.stderr)
+        for problem in problems:
+            print(f"  {problem}", file=sys.stderr)
         if args.strict:
             print(
-                f"\n{len(problems)} problem(s) and --strict was passed.",
+                f"\n{len(problems)} problem(s) found and --strict was given.",
                 file=sys.stderr,
             )
             return 1

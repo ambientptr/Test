@@ -94,6 +94,8 @@ jobs:
       - name: Regenerate embedded localizations
         if: steps.wanted.outputs.build == 'true'
         run: |
+          # --strict turns an unparsable .strings line into a failure here
+          # instead of a wall of confusing clang errors inside the header.
           python3 generate_langs.py --strict
           git diff --stat -- Sources/tgapi/UI/EmbeddedLangs.h || true
 

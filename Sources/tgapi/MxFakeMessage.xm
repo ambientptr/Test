@@ -471,24 +471,23 @@ static BOOL mxLabelIsSendButton(NSString *label) {
 
 @end
 
-// ASDisplayNode is Telegram's private AsyncDisplayKit node class, and
-// ChatControllerImpl is the concrete chat screen. Neither lives in a header we
-// can import: UIHooks.xm declares them inline for its own use, and each .xm is
-// a separate translation unit, so the declarations do not carry over. A
-// category is not an option either, since a category requires the class to
-// already have a visible @interface. Redeclaring here is safe because these are
-// compile-time descriptions only; the real classes come from the host app at
-// runtime and both files agree on the members they use.
+// ASDisplayNode is Telegram's private AsyncDisplayKit node class and
+// ChatControllerImpl is the concrete chat screen. Neither lives in a header
+// we can import: UIHooks.xm declares them inline for its own use, and each
+// .xm is a separate translation unit, so those declarations do not carry
+// over. A category is not an option either, because a category requires the
+// class to already have a visible @interface.
+//
+// These declarations make the class names usable as types. They do NOT give
+// a typed self inside the hooks: both classes are resolved at runtime via
+// %init, so logos types self as id there and each method casts it.
 @interface ASDisplayNode : NSObject
 @property (atomic, assign, readonly) UIView *view;
 @property (atomic, copy, readwrite) NSString *accessibilityLabel;
-// Backed by %property below, so it must be visible for self.mxFakeSendGesture
-// to type-check inside the hook.
+// Backed by the %property in the hook below.
 @property (nonatomic, strong) UILongPressGestureRecognizer *mxFakeSendGesture;
 @end
 
-// Subclassing UIViewController is what gives us .view, .presentedViewController
-// and friends on self inside the hook below.
 @interface _TtC10TelegramUI18ChatControllerImpl : UIViewController
 @end
 
@@ -502,10 +501,14 @@ static BOOL mxLabelIsSendButton(NSString *label) {
   if (!mxLabelIsSendButton(label)) return;
 
   @try {
-    UIView *view = self.view;
+    // self is id here (see the note on the declarations above), so it is
+    // cast once and every member access goes through the typed local.
+    ASDisplayNode *node = (ASDisplayNode *)self;
+
+    UIView *view = node.view;
     if (!view) return;
 
-    if (!self.mxFakeSendGesture) {
+    if (!node.mxFakeSendGesture) {
       UILongPressGestureRecognizer *gesture = [[UILongPressGestureRecognizer alloc]
           initWithTarget:[MxFakeSendTarget shared]
                   action:@selector(handleLongPress:)];
@@ -516,11 +519,11 @@ static BOOL mxLabelIsSendButton(NSString *label) {
       gesture.delaysTouchesBegan = NO;
       gesture.delaysTouchesEnded = NO;
       gesture.minimumPressDuration = 0.45;
-      self.mxFakeSendGesture = gesture;
+      node.mxFakeSendGesture = gesture;
     }
 
-    if (![view.gestureRecognizers containsObject:self.mxFakeSendGesture]) {
-      [view addGestureRecognizer:self.mxFakeSendGesture];
+    if (![view.gestureRecognizers containsObject:node.mxFakeSendGesture]) {
+      [view addGestureRecognizer:node.mxFakeSendGesture];
     }
   } @catch (NSException *e) {}
 }
@@ -534,10 +537,13 @@ static BOOL mxLabelIsSendButton(NSString *label) {
 - (void)viewDidLayoutSubviews {
   %orig;
   @try {
+    // Same reason: self is id inside this hook, so cast before use.
+    UIViewController *controller = (UIViewController *)self;
+
     MxFakeMessageOverlay *overlay =
-        (MxFakeMessageOverlay *)[self.view viewWithTag:kMxFakeOverlayTag];
+        (MxFakeMessageOverlay *)[controller.view viewWithTag:kMxFakeOverlayTag];
     if (overlay && [overlay isKindOfClass:[MxFakeMessageOverlay class]]) {
-      [self.view bringSubviewToFront:overlay];
+      [controller.view bringSubviewToFront:overlay];
       [overlay reload];
     }
   } @catch (NSException *e) {}
