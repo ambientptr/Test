@@ -94,7 +94,7 @@ jobs:
       - name: Regenerate embedded localizations
         if: steps.wanted.outputs.build == 'true'
         run: |
-          python3 generate_langs.py
+          python3 generate_langs.py --strict
           git diff --stat -- Sources/tgapi/UI/EmbeddedLangs.h || true
 
       - name: Build package
