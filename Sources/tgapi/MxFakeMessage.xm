@@ -471,8 +471,25 @@ static BOOL mxLabelIsSendButton(NSString *label) {
 
 @end
 
-@interface ASDisplayNode (MxFakeMessage)
-@property(nonatomic, readonly) UIView *view;
+// ASDisplayNode is Telegram's private AsyncDisplayKit node class, and
+// ChatControllerImpl is the concrete chat screen. Neither lives in a header we
+// can import: UIHooks.xm declares them inline for its own use, and each .xm is
+// a separate translation unit, so the declarations do not carry over. A
+// category is not an option either, since a category requires the class to
+// already have a visible @interface. Redeclaring here is safe because these are
+// compile-time descriptions only; the real classes come from the host app at
+// runtime and both files agree on the members they use.
+@interface ASDisplayNode : NSObject
+@property (atomic, assign, readonly) UIView *view;
+@property (atomic, copy, readwrite) NSString *accessibilityLabel;
+// Backed by %property below, so it must be visible for self.mxFakeSendGesture
+// to type-check inside the hook.
+@property (nonatomic, strong) UILongPressGestureRecognizer *mxFakeSendGesture;
+@end
+
+// Subclassing UIViewController is what gives us .view, .presentedViewController
+// and friends on self inside the hook below.
+@interface _TtC10TelegramUI18ChatControllerImpl : UIViewController
 @end
 
 %hook ASDisplayNode
