@@ -1,0 +1,164 @@
+/* GHOST_MODE Section */
+"GHOST_MODE_SECTION_HEADER" = "隐身模式";
+"READ_RECEIPT_SECTION_HEADER" = "阅读回执";
+"MISC_SECTION_HEADER" = "其他";
+"FILE_FIXER_SECTION_HEADER" = "文件选择器修复";
+"FAKE_LOCATION_SECTION_HEADER" = "虚拟位置";
+"LANGUAGE_SECTION_HEADER" = "语言";
+"CREDITS_SECTION_HEADER" = "致谢";
+
+/* Ghost Mode */
+"DISABLE_ONLINE_STATUS_TITLE" = "隐藏在线状态";
+"DISABLE_ONLINE_STATUS_SUBTITLE" = "防止他人看到你在线。";
+
+"DISABLE_TYPING_STATUS_TITLE" = "隐藏输入状态";
+"DISABLE_TYPING_STATUS_SUBTITLE" = "隐藏你正在输入的信息状态。";
+
+"DISABLE_RECORDING_VIDEO_STATUS_TITLE" = "隐藏视频录制状态";
+"DISABLE_RECORDING_VIDEO_STATUS_SUBTITLE" = "隐藏你正在录制视频时的状态。";
+
+"DISABLE_UPLOADING_VIDEO_STATUS_TITLE" = "隐藏视频上传状态";
+"DISABLE_UPLOADING_VIDEO_STATUS_SUBTITLE" = "上传视频时隐藏状态";
+
+"DISABLE_VC_MESSAGE_RECORDING_STATUS_TITLE" = "隐藏语音消息录制状态";
+"DISABLE_VC_MESSAGE_RECORDING_STATUS_SUBTITLE" = "隐藏你正在录制语音消息时的状态。";
+
+"DISABLE_VC_MESSAGE_UPLOADING_STATUS_TITLE" = "隐藏语音消息上传状态";
+"DISABLE_VC_MESSAGE_UPLOADING_STATUS_SUBTITLE" = "隐藏你正在上传语音消息时的状态。";
+
+"DISABLE_UPLOADING_PHOTO_STATUS_TITLE" = "隐藏照片上传状态";
+"DISABLE_UPLOADING_PHOTO_STATUS_SUBTITLE" = "上传照片时隐藏状态";
+
+"DISABLE_UPLOADING_FILE_STATUS_TITLE" = "隐藏文件上传状态";
+"DISABLE_UPLOADING_FILE_STATUS_SUBTITLE" = "隐藏你正在上传文件的状态。";
+
+"DISABLE_CHOOSING_LOCATION_STATUS_TITLE" = "隐藏选择位置状态";
+"DISABLE_CHOOSING_LOCATION_STATUS_SUBTITLE" = "隐藏你正在选择位置的状态。";
+
+"DISABLE_CHOOSING_CONTACT_TITLE" = "隐藏选择联系人状态";
+"DISABLE_CHOOSING_CONTACT_SUBTITLE" = "隐藏你正在选择联系人的状态。";
+
+"DISABLE_PLAYING_GAME_STATUS_TITLE" = "隐藏游戏状态";
+"DISABLE_PLAYING_GAME_STATUS_SUBTITLE" = "隐藏你正在玩游戏的状态。";
+
+"DISABLE_RECORDING_ROUND_VIDEO_STATUS_TITLE" = "隐藏圆形视频录制状态";
+"DISABLE_RECORDING_ROUND_VIDEO_STATUS_SUBTITLE" = "隐藏你正在录制圆形视频的状态。";
+
+"DISABLE_UPLOADING_ROUND_VIDEO_STATUS_TITLE" = "隐藏圆形视频上传状态";
+
+"DISABLE_SPEAKING_IN_GROUP_CALL_STATUS_TITLE" = "隐藏群组通话发言状态";
+"DISABLE_SPEAKING_IN_GROUP_CALL_STATUS_SUBTITLE" = "隐藏你在群组通话中发言时的状态。";
+
+"DISABLE_CHOOSING_STICKER_STATUS_TITLE" = "隐藏选择贴纸状态";
+"DISABLE_CHOOSING_STICKER_STATUS_SUBTITLE" = "隐藏你正在选择贴纸的状态。";
+
+"DISABLE_EMOJI_INTERACTION_STATUS_TITLE" = "隐藏表情互动状态";
+"DISABLE_EMOJI_INTERACTION_STATUS_SUBTITLE" = "隐藏你与表情互动时的状态。";
+
+"DISABLE_EMOJI_ACKNOWLEDGEMENT_STATUS_TITLE" = "隐藏表情反应状态";
+"DISABLE_EMOJI_ACKNOWLEDGEMENT_STATUS_SUBTITLE" = "隐藏你用表情回应消息时的状态。";
+
+/* READ_RECEIPTS Section */
+"READ_RECEIPTS" = "已读回执";
+
+"DISABLE_MESSAGE_READ_RECEIPT_TITLE" = "关闭消息已读回执";
+"DISABLE_MESSAGE_READ_RECEIPT_SUBTITLE" = "防止他人知道你已阅读消息。";
+
+"DISABLE_STORY_READ_RECEIPT_TITLE" = "关闭故事已读回执";
+"DISABLE_STORY_READ_RECEIPT_SUBTITLE" = "防止他人知道你已查看故事。";
+
+/* MISC Section */
+"MISC" = "其他";
+
+"DISABLE_ALL_ADS_TITLE" = "关闭所有广告";
+"DISABLE_ALL_ADS_SUBTITLE" = "移除应用中的广告和推广内容。";
+
+"ENABLE_SAVING_PROTECTED_CONTENT_TITLE" = "允许保存受保护内容";
+"ENABLE_SAVING_PROTECTED_CONTENT_SUBTITLE" = "绕过限制，保存受保护的内容。";
+
+
+"ANTI_REVOKE_TITLE" = "防撤回消息";
+"ANTI_REVOKE_SUBTITLE" = "即使发送者删除了消息，也将其保留在聊天中。";
+
+"ANTI_SCREENSHOT_TITLE" = "隐藏截屏通知";
+"ANTI_SCREENSHOT_SUBTITLE" = "在私密聊天和受保护频道中截图时不发送通知。";
+
+"ANTI_SELF_DESTRUCT_TITLE" = "自由查看消失的媒体";
+"ANTI_SELF_DESTRUCT_SUBTITLE" = "打开一次性消失的照片/视频而不触发自毁计时器。";
+"ANTI_AUTO_DELETE_TITLE" = "保存自动删除消息";
+"ANTI_AUTO_DELETE_SUBTITLE" = "防止在启用自动删除（1天、7天等）的聊天中消息被删除。";
+
+/* File Picker */
+"FIX_FILE_PICKER_TITLE" = "修复文件选择器";
+"FIX_FILE_PICKER_SUBTITLE" = "修复在侧载版本中无法从文件应用选择文件的问题";
+"CLEAR_FILE_PICKER_CACHE_TITLE" = "清除文件选择器缓存";
+"CLEAR_FILE_PICKER_CACHE_SUBTITLE" = "由于文件选择器会将文件复制到临时目录，需要手动清除";
+"CACHE_CLEAR_WARNING_TITLE" = "确认";
+"CACHE_CLEAR_WARNING_MESSAGE" = "你确定吗？";
+
+/* Fake Location */
+"ENABLE_FAKE_LOCATION_TITLE" = "启用虚拟位置";
+"ENABLE_FAKE_LOCATION_SUBTITLE" = "允许伪装设备的 GPS 位置";
+"SELECT_FAKE_LOCATION_TITLE" = "选择位置";
+
+/* Extras */
+"APPLY" = "应用";
+"APPLY_CHANGES" = "您确定要应用这些更改吗？";
+
+"OK" = "确定";
+"CANCEL" = "取消";
+
+"AUTHOR_MESSAGE" = "此 Telegram 插件仅供个人和教育用途。我们与 Telegram 没有任何关联。所有商标，包括 Telegram 的名称和标志，均归其各自所有者所有。请不要用它来违反规则、做灰色操作或违反 Telegram 的服务条款——如果出问题，我们概不负责。使用风险自负。\n\n另外……如果你喜欢这个插件，记得说一声。我真的很需要认可来维持动力。\n\n还有……如果你愿意支持我，捐个一两美元的话，可以在 Telegram 上联系我。";
+
+
+
+"ANTI_EDIT_TITLE" = "保存被编辑消息的原文";
+"ANTI_EDIT_SUBTITLE" = "保留他人编辑过的每一个版本。聊天中仍显示最新内容；点击气泡上的铅笔即可查看之前写了什么。";
+"ANTI_EDIT_UNAVAILABLE_SUBTITLE" = "此 Telegram 版本不可用 —— 在 API 层更新之前无法读取编辑更新。";
+"CLOSE" = "关闭";
+"CONFIRM_CALLS_TITLE" = "接听前确认";
+"CONFIRM_CALLS_SUBTITLE" = "接听来电前先弹出确认对话框。";
+"CUSTOM_STARS_TITLE" = "自定义星星余额";
+"CUSTOM_STARS_SUBTITLE" = "把星星余额显示成任意数字。仅为显示 —— 服务器仍按自己的计数，用它买不了任何东西。";
+"CUSTOM_STARS_ACTIVE" = "正在显示 %lld 星星";
+"CUSTOM_STARS_PROMPT" = "要显示多少星星？";
+"CUSTOM_STARS_RESET" = "显示真实余额";
+"DISABLE_UPLOADING_ROUND_VIDEO_STATUS_SUBTITLE" = "上传圆形视频消息时隐藏提示。";
+"DISCLAIMER" = "免责声明";
+"DOWNLOAD_BOOST_SECTION_HEADER" = "下载速度";
+"DOWNLOAD_BOOST_TITLE" = "下载加速";
+"DOWNLOAD_BOOST_SUBTITLE" = "增大分块体积和并行连接数，加快文件下载。多数人用「中等」即可。";
+"DOWNLOAD_BOOST_OFF" = "关闭（默认）";
+"DOWNLOAD_BOOST_MEDIUM" = "中等（512 KB / 8 路）";
+"DOWNLOAD_BOOST_MAX" = "最高（1 MB / 12 路）";
+"EDIT_HISTORY_TITLE" = "编辑记录";
+"EDIT_HISTORY_ORIGINAL" = "原文：";
+"EDIT_HISTORY_EDIT" = "编辑";
+"EDIT_HISTORY_COPY_LATEST" = "复制最新版本";
+"GHOST_EXCEPTIONS_SECTION_HEADER" = "幽灵模式例外";
+"GHOST_EXCEPTIONS_SECTION_FOOTER" = "对其他人保持幽灵模式的同时，这些人仍能看到你的「正在输入」和已读回执。在线状态不在此列：Telegram 会一次性发给所有人，无法只对某一个人公开。";
+"GHOST_EXCEPTIONS_EMPTY_TITLE" = "还没有例外";
+"GHOST_EXCEPTIONS_EMPTY_SUBTITLE" = "打开某人的个人资料，点击右上角的眼睛按钮即可添加。";
+"GHOST_EXCEPTIONS_RENAME_TITLE" = "重命名";
+"GHOST_EXCEPTIONS_RENAME_MESSAGE" = "选择在此列表中显示的名称。留空则使用个人资料上的名字。";
+"GHOST_EXCEPTION_ADDED_TOAST" = "已添加例外 —— 此人会看到你的真实动态";
+"GHOST_EXCEPTION_REMOVED_TOAST" = "已移除例外 —— 幽灵模式重新生效";
+"GHOST_MODE_NEEDS_SUBFEATURE" = "请先在高级设置中至少启用一项功能。";
+"HIDE_DISAPPEARING_LABEL_TITLE" = "隐藏阅后即焚标记";
+"HIDE_DISAPPEARING_LABEL_SUBTITLE" = "不再在拦截到的一次性媒体前加上 \"dissapearing message\" 标记。";
+"SAVE" = "保存";
+"VIDEO_TO_VOICE_TITLE" = "视频转语音";
+"VIDEO_TO_VOICE_SUBTITLE" = "只把所选视频的声音作为真正的语音消息发出。预览里的裁剪范围同样有效，因此只发送选定的片段。也可以用预览左上角的波形按钮，对单个视频单独切换。";
+"VIDEO_TO_VOICE_ON_TOAST" = "这个视频将作为语音消息发送";
+"VIDEO_TO_VOICE_OFF_TOAST" = "恢复按普通视频发送";
+"VIDEO_TO_VOICE_EXTRACTING" = "正在提取音频…";
+"VIDEO_TO_VOICE_SUCCESS" = "音频已就绪 —— 正在发送";
+"VIDEO_TO_VOICE_FAILED" = "无法提取音频 —— 改为发送视频";
+"VIDEO_TO_VOICE_NO_AUDIO" = "这个视频没有声音 —— 改为发送视频";
+
+/* First-run alert */
+"WELCOME_BODY" = "Mx 已安装。\n\n打开 Mx 菜单:\n%@";
+"WELCOME_HOWTO" = "打开设置，长按“%@”一行。";
+"WELCOME_HOWTO_IME" = "打开设置，长按“%@”一行。\n\n在 iMe 中“%@”一行无效 —— iMe 会在该行打开自己的菜单。";
+"WELCOME_HOWTO_TURRIT" = "打开设置，长按“About Turrit”一行。";
+"WELCOME_JOIN_CHANNEL" = "加入频道 →";

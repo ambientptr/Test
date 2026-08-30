@@ -1,0 +1,9 @@
+[
+  {
+    "title": "Mx 1.0.0 is ready!",
+    "message": "• Fixed: the trash marker no longer rewrites message text — the red icon on the bubble is the only marker, so formatting, links and mentions on revoked messages stay where they belong\n• Fixed: an oversized trash icon on bubbles with no timestamp node\n• Fixed: settings could not be opened in the Chinese build of Turrit\n• The tweak is now fully translated — every string follows the language you pick, instead of falling back to English",
+    "type": "update",
+    "url": "https://t.me/m1ronx",
+    "target_version": "1.0.0"
+  }
+]

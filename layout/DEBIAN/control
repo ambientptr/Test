@@ -1,0 +1,8 @@
+Package: com.m1ronx.mx
+Name: Mx
+Version: 1.0.0
+Architecture: iphoneos-arm
+Description: The best Tweak For Telegram iOS
+Maintainer: m1ronx
+Author: m1ronx
+Section: Tweaks

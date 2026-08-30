@@ -1,0 +1,202 @@
+name: Build Mx (deb / cyan IPA)
+
+# Manual builds that just produce files, without touching releases or tags.
+# The existing build.yml only runs on a published release and deletes the
+# "release" tag as its first step, which makes it unusable for test builds.
+#
+#   deb  — always built, for all three package schemes.
+#   ipa  — only when you pass a decrypted IPA URL; the rootful deb is injected
+#          into it with cyan, giving a sideloadable .ipa and a TrollStore .tipa.
+
+on:
+  workflow_dispatch:
+    inputs:
+      decrypted_ipa_url:
+        description: "Direct URL of a decrypted Telegram IPA. Leave empty to build only the .deb files."
+        required: false
+        default: ""
+        type: string
+      package_scheme:
+        description: "Which deb variants to build"
+        required: true
+        default: all
+        type: choice
+        options: [all, rootful, rootless, roothide]
+  push:
+    branches: [main, master]
+    paths:
+      - "Sources/**"
+      - "Mx.bundle/**"
+      - "layout/**"
+      - "Makefile"
+      - "Mx.plist"
+      - ".github/workflows/mx-build.yml"
+  pull_request:
+    paths:
+      - "Sources/**"
+      - "Makefile"
+
+permissions:
+  contents: read
+
+jobs:
+  # ---------------------------------------------------------------- deb ----
+  deb:
+    name: deb (${{ matrix.scheme }})
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - scheme: rootful
+            scheme_arg: ""
+            arch: iphoneos-arm
+          - scheme: rootless
+            scheme_arg: "THEOS_PACKAGE_SCHEME=rootless"
+            arch: iphoneos-arm64
+          - scheme: roothide
+            scheme_arg: "THEOS_PACKAGE_SCHEME=roothide"
+            arch: iphoneos-arm64e
+    steps:
+      - uses: actions/checkout@v4
+
+      # Skips the non-selected variants on manual runs. Doing it here instead of
+      # in a job-level `if` keeps the matrix definition in one place.
+      - name: Check whether this variant was requested
+        id: wanted
+        run: |
+          WANT="${{ github.event.inputs.package_scheme }}"
+          if [ -z "$WANT" ] || [ "$WANT" = "all" ] || [ "$WANT" = "${{ matrix.scheme }}" ]; then
+            echo "build=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "build=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Skipping ${{ matrix.scheme }} (only $WANT was requested)"
+          fi
+
+      - name: Set up Theos
+        if: steps.wanted.outputs.build == 'true'
+        uses: waruhachi/theos-action@v2.4.6
+        with:
+          theos-src: "waruhachi/theos"
+          theos-branch: "main"
+          sdks-src: "waruhachi/sdks"
+          sdks-branch: "main"
+
+      # The Makefile declares Mx_RESOURCE_FILES = Sources/tgapi/Resources, but
+      # that folder is not in the repo (git drops empty directories). Theos
+      # copies it during stage and fails if it is missing, so create it here.
+      - name: Ensure the resource directory exists
+        if: steps.wanted.outputs.build == 'true'
+        run: mkdir -p Sources/tgapi/Resources
+
+      # Regenerated rather than trusted: EmbeddedLangs.h is a build product
+      # checked into the repo, so it can silently fall behind Mx.bundle.
+      - name: Regenerate embedded localizations
+        if: steps.wanted.outputs.build == 'true'
+        run: |
+          python3 generate_langs.py
+          git diff --stat -- Sources/tgapi/UI/EmbeddedLangs.h || true
+
+      - name: Build package
+        if: steps.wanted.outputs.build == 'true'
+        run: make clean package FINALPACKAGE=1 STRIP=0 ${{ matrix.scheme_arg }}
+
+      - name: Show what was produced
+        if: steps.wanted.outputs.build == 'true'
+        run: ls -lh packages/
+
+      - name: Upload deb
+        if: steps.wanted.outputs.build == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: Mx-${{ matrix.scheme }}-${{ matrix.arch }}
+          path: |
+            packages/*.deb
+            packages/Mx.dylib
+          if-no-files-found: error
+
+  # ---------------------------------------------------------------- ipa ----
+  ipa:
+    name: cyan IPA
+    needs: deb
+    runs-on: macos-latest
+    # Only worth running when there is an IPA to inject into. GitHub cannot host
+    # decrypted Telegram binaries, so the URL has to come from you.
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.decrypted_ipa_url != ''
+    steps:
+      - uses: actions/checkout@v4
+
+      # Sideloading is unjailbroken, so the rootful (iphoneos-arm) build is the
+      # one that belongs inside the app bundle.
+      - name: Download the rootful deb
+        uses: actions/download-artifact@v4
+        with:
+          name: Mx-rootful-iphoneos-arm
+          path: build
+
+      - name: Download the decrypted IPA
+        env:
+          IPA_URL: ${{ github.event.inputs.decrypted_ipa_url }}
+        run: |
+          curl -fL --retry 3 \
+            -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)" \
+            -o decrypted.ipa "$IPA_URL"
+          # A wrong or expired link usually returns an HTML error page, which
+          # would otherwise fail much later inside cyan with a confusing message.
+          if ! unzip -l decrypted.ipa >/dev/null 2>&1; then
+            echo "::error::The downloaded file is not a valid IPA. Check the URL."
+            exit 1
+          fi
+
+      - name: Read bundle id and version from the IPA
+        id: meta
+        run: |
+          rm -rf probe && mkdir probe
+          unzip -q decrypted.ipa -d probe
+          PLIST=$(ls probe/Payload/*.app/Info.plist | head -n1)
+
+          BUNDLE_ID=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$PLIST")
+          VERSION=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$PLIST")
+
+          echo "bundle_id=$BUNDLE_ID" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Injecting into $BUNDLE_ID $VERSION"
+
+      - name: Install cyan
+        run: pip install --force-reinstall https://github.com/asdfzxcvbn/pyzule-rw/archive/main.zip
+
+      - name: Inject Mx with cyan
+        env:
+          BUNDLE_ID: ${{ steps.meta.outputs.bundle_id }}
+          VERSION: ${{ steps.meta.outputs.version }}
+        run: |
+          DEB=$(ls build/*.deb | head -n1)
+          OUT_BASE="$BUNDLE_ID-$VERSION-Mx"
+
+          # -u strip UISupportedDevices, -w drop the watch app, -s fakesign,
+          # -g allow signing without a real team, -q quieter output,
+          # -f the things to inject (the deb plus the localization bundle).
+          cyan -i decrypted.ipa -o "$OUT_BASE.ipa" -uwsgq -f "$DEB" Mx.bundle
+
+          # Same payload, different extension: TrollStore wants a .tipa.
+          mkdir -p artifacts
+          cp "$OUT_BASE.ipa" "artifacts/$OUT_BASE.tipa"
+          mv "$OUT_BASE.ipa" artifacts/
+          ls -lh artifacts/
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: Mx-ipa-${{ steps.meta.outputs.bundle_id }}-${{ steps.meta.outputs.version }}
+          path: |
+            artifacts/*.ipa
+            artifacts/*.tipa
+          if-no-files-found: error
+
+      - name: Checksums
+        run: |
+          cd artifacts
+          for f in *; do
+            echo "### $f"
+            echo "* SHA256: $(shasum -a 256 "$f" | awk '{print $1}')"
+          done >> "$GITHUB_STEP_SUMMARY"

@@ -1,0 +1,162 @@
+/* GHOST_MODE Section */
+"GHOST_MODE_SECTION_HEADER" = "Mode Fantôme";
+"READ_RECEIPT_SECTION_HEADER" = "Accusés de Lecture";
+"MISC_SECTION_HEADER" = "Divers";
+"FILE_FIXER_SECTION_HEADER" = "Correcteur de Sélecteur de Fichiers";
+"FAKE_LOCATION_SECTION_HEADER" = "Fausse Localisation";
+"LANGUAGE_SECTION_HEADER" = "Langue";
+"CREDITS_SECTION_HEADER" = "Crédits";
+
+/* Ghost Mode */
+
+"DISABLE_ONLINE_STATUS_TITLE" = "Désactiver le statut en ligne";
+"DISABLE_ONLINE_STATUS_SUBTITLE" = "Ne pas afficher que vous êtes en ligne.";
+
+"DISABLE_TYPING_STATUS_TITLE" = "Désactiver le statut de saisie";
+"DISABLE_TYPING_STATUS_SUBTITLE" = "Ne pas afficher que vous êtes en train d'écrire.";
+
+"DISABLE_RECORDING_VIDEO_STATUS_TITLE" = "Désactiver le statut d'enregistrement vidéo";
+"DISABLE_RECORDING_VIDEO_STATUS_SUBTITLE" = "Ne pas afficher que vous êtes en train d'enregistrer une vidéo.";
+
+"DISABLE_UPLOADING_VIDEO_STATUS_TITLE" = "Désactiver le statut de téléchargement de vidéo";
+"DISABLE_UPLOADING_VIDEO_STATUS_SUBTITLE" = "Masquer lors du téléchargement d'une vidéo";
+
+"DISABLE_VC_MESSAGE_RECORDING_STATUS_TITLE" = "Désactiver l'enregistrement de messages vocaux";
+"DISABLE_VC_MESSAGE_RECORDING_STATUS_SUBTITLE" = "Ne pas afficher que vous êtes en train d'enregistrer un message vocal.";
+
+"DISABLE_VC_MESSAGE_UPLOADING_STATUS_TITLE" = "Désactiver le statut de téléchargement de message vocal";
+"DISABLE_VC_MESSAGE_UPLOADING_STATUS_SUBTITLE" = "Ne pas afficher que vous êtes en train de télécharger un message vocal.";
+
+"DISABLE_UPLOADING_PHOTO_STATUS_TITLE" = "Désactiver le statut de téléchargement de photo";
+"DISABLE_UPLOADING_PHOTO_STATUS_SUBTITLE" = "Masquer lors du téléchargement d'une photo";
+
+"DISABLE_UPLOADING_FILE_STATUS_TITLE" = "Désactiver le statut de téléchargement de fichier";
+"DISABLE_UPLOADING_FILE_STATUS_SUBTITLE" = "Ne pas afficher que vous êtes en train de télécharger un fichier.";
+
+"DISABLE_CHOOSING_LOCATION_STATUS_TITLE" = "Désactiver le choix du lieu";
+"DISABLE_CHOOSING_LOCATION_STATUS_SUBTITLE" = "Ne pas afficher que vous êtes en train de choisir un lieu.";
+
+"DISABLE_CHOOSING_CONTACT_TITLE" = "Désactiver le choix du contact";
+"DISABLE_CHOOSING_CONTACT_SUBTITLE" = "Ne pas afficher que vous êtes en train de choisir un contact.";
+
+"DISABLE_PLAYING_GAME_STATUS_TITLE" = "Désactiver le statut de jeu";
+"DISABLE_PLAYING_GAME_STATUS_SUBTITLE" = "Ne pas afficher que vous êtes en train de jouer.";
+
+"DISABLE_RECORDING_ROUND_VIDEO_STATUS_TITLE" = "Désactiver l'enregistrement de vidéo ronde";
+"DISABLE_RECORDING_ROUND_VIDEO_STATUS_SUBTITLE" = "Ne pas afficher que vous êtes en train d'enregistrer une vidéo ronde.";
+
+"DISABLE_UPLOADING_ROUND_VIDEO_STATUS_TITLE" = "Désactiver le statut de téléchargement de vidéo ronde";
+
+"DISABLE_SPEAKING_IN_GROUP_CALL_STATUS_TITLE" = "Désactiver le statut de parole dans les appels de groupe";
+"DISABLE_SPEAKING_IN_GROUP_CALL_STATUS_SUBTITLE" = "Ne pas afficher que vous parlez dans un appel de groupe.";
+
+"DISABLE_CHOOSING_STICKER_STATUS_TITLE" = "Désactiver le choix de stickers";
+"DISABLE_CHOOSING_STICKER_STATUS_SUBTITLE" = "Ne pas afficher que vous êtes en train de choisir un sticker.";
+
+"DISABLE_EMOJI_INTERACTION_STATUS_TITLE" = "Désactiver l'interaction avec les émojis";
+"DISABLE_EMOJI_INTERACTION_STATUS_SUBTITLE" = "Ne pas afficher que vous interagissez avec un émoji.";
+
+"DISABLE_EMOJI_ACKNOWLEDGEMENT_STATUS_TITLE" = "Désactiver la reconnaissance des émojis";
+"DISABLE_EMOJI_ACKNOWLEDGEMENT_STATUS_SUBTITLE" = "Ne pas afficher que vous avez reconnu un émoji.";
+
+/* READ_RECEIPTS Section */
+"READ_RECEIPTS" = "Accusés de réception";
+
+"DISABLE_MESSAGE_READ_RECEIPT_TITLE" = "Désactiver les accusés de réception de message";
+"DISABLE_MESSAGE_READ_RECEIPT_SUBTITLE" = "Ne pas afficher que vous avez lu le message.";
+
+"DISABLE_STORY_READ_RECEIPT_TITLE" = "Désactiver les accusés de réception des stories";
+"DISABLE_STORY_READ_RECEIPT_SUBTITLE" = "Ne pas afficher que vous avez vu la story.";
+
+/* MISC Section */
+"MISC" = "Divers";
+
+"DISABLE_ALL_ADS_TITLE" = "Désactiver toutes les publicités";
+"DISABLE_ALL_ADS_SUBTITLE" = "Supprimer les publicités et le contenu sponsorisé de l'application.";
+
+"ENABLE_SAVING_PROTECTED_CONTENT_TITLE" = "Activer l'enregistrement de contenu protégé";
+"ENABLE_SAVING_PROTECTED_CONTENT_SUBTITLE" = "Contournement des restrictions pour enregistrer le contenu protégé.";
+
+
+"ANTI_REVOKE_TITLE" = "Anti-Révocation";
+"ANTI_REVOKE_SUBTITLE" = "Conserve les messages dans le chat même après leur suppression par l'expéditeur.";
+
+"ANTI_SCREENSHOT_TITLE" = "Masquer la notif. capture";
+"ANTI_SCREENSHOT_SUBTITLE" = "Empêche l'envoi de notification lors de captures dans les chats secrets et chaînes protégées.";
+
+"ANTI_SELF_DESTRUCT_TITLE" = "Voir les médias éphémères librement";
+"ANTI_SELF_DESTRUCT_SUBTITLE" = "Ouvrir les photos/vidéos éphémères sans déclencher le minuteur d'autodestruction.";
+"ANTI_AUTO_DELETE_TITLE" = "Sauvegarder les messages à suppression automatique";
+"ANTI_AUTO_DELETE_SUBTITLE" = "Empêche la suppression des messages dans les chats avec suppression automatique (1 jour, 7 jours, etc.).";
+
+/* File Picker */
+"FIX_FILE_PICKER_TITLE" = "Corriger le Sélecteur de Fichiers";
+"FIX_FILE_PICKER_SUBTITLE" = "Corrige le problème empêchant la sélection de fichiers depuis l’app Fichiers sur les versions installées manuellement";
+"CLEAR_FILE_PICKER_CACHE_TITLE" = "Vider le Cache du Sélecteur de Fichiers";
+"CLEAR_FILE_PICKER_CACHE_SUBTITLE" = "Comme le sélecteur copie les fichiers dans un dossier temporaire, il faut le vider manuellement";
+"CACHE_CLEAR_WARNING_TITLE" = "Confirmer";
+"CACHE_CLEAR_WARNING_MESSAGE" = "Êtes-vous sûr ?";
+
+/* Fake Location */ 
+"ENABLE_FAKE_LOCATION_TITLE" = "Activer la Fausse Localisation";
+"ENABLE_FAKE_LOCATION_SUBTITLE" = "Permet de simuler la localisation GPS de votre appareil";
+"SELECT_FAKE_LOCATION_TITLE" = "Sélectionner une Localisation";
+
+/* Extras */
+"APPLY" = "Appliquer";
+"APPLY_CHANGES" = "Êtes-vous sûr de vouloir appliquer ces changements ?";
+
+"OK" = "OK";
+"CANCEL" = "Annuler";
+
+"AUTHOR_MESSAGE" = "Ce tweak Telegram est uniquement destiné à un usage personnel et éducatif. Nous ne sommes en aucun cas affiliés à Telegram. Toutes les marques, y compris le nom et le logo de Telegram, appartiennent à leurs propriétaires respectifs. N'utilisez pas ceci pour enfreindre les règles, faire des choses louches ou violer les conditions d'utilisation de Telegram — nous ne sommes pas responsables en cas de problème. Utilisez-le à vos risques et périls.\n\nAussi… si ça vous plaît, dites-le. Sérieusement, je vis pour la validation.\n\nEt… si vous voulez me soutenir avec un ou deux euros, contactez-moi sur Telegram.";
+"ANTI_EDIT_TITLE" = "Conserver l'original des messages modifiés";
+"ANTI_EDIT_SUBTITLE" = "Conserve chaque version d'un message modifié par quelqu'un. La discussion affiche toujours le texte le plus récent ; touchez le crayon sur la bulle pour lire ce qui était écrit avant.";
+"ANTI_EDIT_UNAVAILABLE_SUBTITLE" = "Indisponible sur cette version de Telegram — les mises à jour de modification ne peuvent pas être lues tant que la couche API n'est pas actualisée.";
+"CLOSE" = "Fermer";
+"CONFIRM_CALLS_TITLE" = "Confirmer les appels";
+"CONFIRM_CALLS_SUBTITLE" = "Affiche une confirmation avant de répondre à un appel entrant.";
+"CUSTOM_STARS_TITLE" = "Solde d'étoiles personnalisé";
+"CUSTOM_STARS_SUBTITLE" = "Affichez le solde d'étoiles que vous voulez. Affichage seulement — le serveur garde son propre compte, rien de ce que vous achèteriez ne passera.";
+"CUSTOM_STARS_ACTIVE" = "%lld étoiles affichées";
+"CUSTOM_STARS_PROMPT" = "Combien d'étoiles afficher ?";
+"CUSTOM_STARS_RESET" = "Afficher le vrai solde";
+"DISABLE_UPLOADING_ROUND_VIDEO_STATUS_SUBTITLE" = "Masque l'indicateur pendant l'envoi d'un message vidéo rond.";
+"DISCLAIMER" = "Avertissement";
+"DOWNLOAD_BOOST_SECTION_HEADER" = "Vitesse de téléchargement";
+"DOWNLOAD_BOOST_TITLE" = "Accélérer les téléchargements";
+"DOWNLOAD_BOOST_SUBTITLE" = "Augmente la taille des blocs et le nombre de connexions parallèles pour télécharger plus vite. « Moyen » convient à la plupart des utilisateurs.";
+"DOWNLOAD_BOOST_OFF" = "Désactivé (par défaut)";
+"DOWNLOAD_BOOST_MEDIUM" = "Moyen (512 Ko / 8 parties)";
+"DOWNLOAD_BOOST_MAX" = "Maximum (1 Mo / 12 parties)";
+"EDIT_HISTORY_TITLE" = "Historique des modifications";
+"EDIT_HISTORY_ORIGINAL" = "Original :";
+"EDIT_HISTORY_EDIT" = "Modification";
+"EDIT_HISTORY_COPY_LATEST" = "Copier la dernière version";
+"GHOST_EXCEPTIONS_SECTION_HEADER" = "Exceptions du mode fantôme";
+"GHOST_EXCEPTIONS_SECTION_FOOTER" = "Ces personnes continuent de voir que vous écrivez et que vous avez lu leurs messages, alors que le mode fantôme reste actif pour tous les autres. Le statut en ligne n'est pas concerné : Telegram l'envoie à tout le monde d'un coup, il ne peut donc pas être révélé à une seule personne.";
+"GHOST_EXCEPTIONS_EMPTY_TITLE" = "Aucune exception pour l'instant";
+"GHOST_EXCEPTIONS_EMPTY_SUBTITLE" = "Ouvrez le profil de quelqu'un et touchez le bouton en forme d'œil en haut à droite pour l'ajouter.";
+"GHOST_EXCEPTIONS_RENAME_TITLE" = "Renommer";
+"GHOST_EXCEPTIONS_RENAME_MESSAGE" = "Choisissez le nom affiché dans cette liste. Laissez vide pour utiliser celui du profil.";
+"GHOST_EXCEPTION_ADDED_TOAST" = "Exception ajoutée — cette personne voit votre activité réelle";
+"GHOST_EXCEPTION_REMOVED_TOAST" = "Exception retirée — le mode fantôme s'applique de nouveau";
+"GHOST_MODE_NEEDS_SUBFEATURE" = "Activez d'abord au moins une fonction dans les réglages avancés.";
+"HIDE_DISAPPEARING_LABEL_TITLE" = "Masquer l'étiquette éphémère";
+"HIDE_DISAPPEARING_LABEL_SUBTITLE" = "N'ajoute plus la mention \"dissapearing message\" devant les médias à usage unique interceptés.";
+"SAVE" = "Enregistrer";
+"VIDEO_TO_VOICE_TITLE" = "Vidéo en message vocal";
+"VIDEO_TO_VOICE_SUBTITLE" = "N'envoie que le son de la vidéo choisie, sous forme de véritable message vocal. Le découpage fait dans l'aperçu est respecté : seul l'extrait sélectionné part. Vous pouvez aussi basculer vidéo par vidéo avec le bouton d'onde en haut à gauche de l'aperçu.";
+"VIDEO_TO_VOICE_ON_TOAST" = "Cette vidéo sera envoyée comme message vocal";
+"VIDEO_TO_VOICE_OFF_TOAST" = "Envoi de nouveau en vidéo normale";
+"VIDEO_TO_VOICE_EXTRACTING" = "Extraction de l'audio…";
+"VIDEO_TO_VOICE_SUCCESS" = "Audio prêt — envoi en cours";
+"VIDEO_TO_VOICE_FAILED" = "Impossible d'extraire l'audio — la vidéo est envoyée à la place";
+"VIDEO_TO_VOICE_NO_AUDIO" = "Cette vidéo n'a pas de son — la vidéo est envoyée à la place";
+
+/* First-run alert */
+"WELCOME_BODY" = "Mx est installé.\n\nPour ouvrir le menu Mx :\n%@";
+"WELCOME_HOWTO" = "Ouvrez les Réglages et appuyez longuement sur la ligne « %@ ».";
+"WELCOME_HOWTO_IME" = "Ouvrez les Réglages et appuyez longuement sur la ligne « %@ ».\n\nDans iMe, la ligne « %@ » ne fonctionnera pas : iMe y ouvre son propre menu.";
+"WELCOME_HOWTO_TURRIT" = "Ouvrez les Réglages et appuyez longuement sur la ligne « About Turrit ».";
+"WELCOME_JOIN_CHANNEL" = "Rejoindre le canal →";
